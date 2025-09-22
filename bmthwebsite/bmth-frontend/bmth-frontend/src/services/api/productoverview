@@ -1,0 +1,4 @@
+import { Product } from "../../types/Product";
+
+const API_BASE = "https://localhost:7297";
+
