@@ -7,8 +7,9 @@ type TShirt = {
   name : string;
   price : number;
 }
+
 function App() {
-  
+
   const [tshirts, setTShirts] = useState<TShirt[]>([])
   const [error, setError] = useState<string | null>(null);
 
@@ -45,10 +46,6 @@ function App() {
       (
       <p>The API is currently not working correctly, no shirts available</p>
       )}
-
-
-      <p> TEST 7 </p>
-
 
       <ul>
         {tshirts.map((shirt) => (
