@@ -46,7 +46,9 @@ function App() {
       <p>The API is currently not working correctly, no shirts available</p>
       )}
 
+
       <p> TEST 2 </p>
+
 
       <ul>
         {tshirts.map((shirt) => (
