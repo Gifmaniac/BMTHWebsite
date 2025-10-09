@@ -15,7 +15,7 @@ export interface ProductDetail {
     name: string;
     price: number;
     gender: string;
-    meterial: string;
+    material: string;
     totalQuantity: number;
     inStock: boolean;
     variants: Variant[];

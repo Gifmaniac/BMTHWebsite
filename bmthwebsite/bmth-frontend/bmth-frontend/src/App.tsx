@@ -53,7 +53,7 @@ function App() {
           }
         />
 
-        {/* ✅ Detail page */}
+        {/*  Detail page */}
         <Route path="/tshirts/:id" element={<ShirtDetail />} />
       </Routes>
     </>
