@@ -1,62 +1,50 @@
-import { useState, useEffect} from 'react'
-import { Routes, Route, Link } from "react-router-dom";
-import './App.css'
-import type { ProductOverview } from "./types/Product";
-import { apiFetch } from "./services/api/helper";
-import ShirtDetail from './pages/ShopDetail/ShirtDetail';
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import { Sidebar } from "./components/sidebar"
+import StoreRoutes from "./pages/Store/storeroutes/StoreRoutes";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
-
-type TShirt = {
-  id : number;
-  name : string;
-  price : number;
-}
-
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#e91717", // BMTH red
+    },
+    background: {
+      default: "#000", // page background
+      paper: "#111",   // components background (cards, modals)
+    },
+    text: {
+      primary: "#fff",
+      secondary: "#aaa",
+    },
+  },
+  typography: {
+    fontFamily: '"Poppins", "Roboto", "Helvetica", "Arial", sans-serif',
+  },
+});
 
 function App() {
-  
-  const [tshirts, setTshirts] = useState<TShirt[]>([])
-
-  useEffect(() => {
-    apiFetch<ProductOverview[]>("/store/tshirts?genders=Men")
-      .then(setTshirts)
-      .catch((err: unknown) => console.error("API error:", err));
-  }, []);
-
-
   return (
-    <>
-      <h1>BMTH Shirt Collection</h1>
+    <Routes>
+      {/* Routes with side bar */}
+      <Route
+        path="/"
+        element={
+          <div className="app-layout">
+            <Sidebar />
+            <main>
+            </main>
+          </div>
+        }
+      />
 
-      <Routes>
-        {/* Overview page */}
-        <Route
-          path="/"
-          element={
-            <>
-              {tshirts.length === 0 ? (
-                <p>No shirts available</p>
-              ) : (
-                <ul>
-                  {tshirts.map((shirt) => (
-                    <li key={shirt.id}>
-                      {/* Link to detail page */}
-                      <Link to={`/tshirts/${shirt.id}`}>
-                        {shirt.name} - €{shirt.price}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          }
-        />
-
-        {/*  Detail page */}
-        <Route path="/tshirts/:id" element={<ShirtDetail />} />
-      </Routes>
-    </>
+      {/* Routes without sidebar */}
+      <Route path="/store/*" element={<StoreRoutes />} />
+    </Routes>
   );
 }
+
 
 export default App;

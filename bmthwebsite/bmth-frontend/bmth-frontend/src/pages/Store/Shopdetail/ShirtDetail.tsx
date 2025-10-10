@@ -2,10 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Stack from '@mui/material/Stack';
-import BasicSelect from "../../components/common/select/Select";
-import LoadingButtons from "../../components/common/buttons/LoadingButtons";
-import type { ProductDetail } from "../../types/Product";
-import { apiFetch } from "../../services/api/helper.ts";
+import BasicSelect from "../../../components/common/select/Select.tsx";
+import type { ProductDetail } from "../../../types/Product.ts";
+import { apiFetch } from "../../../services/api/helper.ts";
 import Box from "@mui/material/Box";
 
 function ShirtDetail() {
@@ -17,11 +16,12 @@ function ShirtDetail() {
   const [selectedSize, setSelectedSize] = useState("");
 
 
-     useEffect(() => {
-    apiFetch<ProductDetail>(`/store/tshirts/${id}`)
+  useEffect(() => {
+    if (!id) return;
+    apiFetch<ProductDetail>(`/api/store/apparel/${id}`)
       .then(setTshirt)
       .catch((err: unknown) => console.error("API error:", err));
-    }, [id]);
+  }, [id]);
 
   if (!tshirt) return <p>Loading...</p>;
 
@@ -54,7 +54,7 @@ function ShirtDetail() {
         <p><strong>Material:</strong> {tshirt.material}</p>
         <p><strong>In Stock:</strong> {tshirt.inStock ? "Yes" : "No"}</p>
 
-      <h3>Variants</h3>
+      <h3>Selected color</h3>
 
       <Box display="flex" justifyContent="center" alignItems="center" sx={{ my: 2 }}>
         <BasicSelect
