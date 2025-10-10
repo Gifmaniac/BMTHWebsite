@@ -15,11 +15,15 @@ type TShirt = {
   const { gender } = useParams<{ gender: string }>();
 
   useEffect(() => {
+    
+    if (!gender) return;
+
     const selectedGender = gender || "Unisex";
+
     apiFetch<ProductOverview[]>(`/api/store/apparel?genders=${selectedGender}`)
       .then(setTshirts)
       .catch((err: unknown) => console.error("API error:", err));
-  }, []);
+  }, [gender]);
 
  return (
     <div className="store-container">

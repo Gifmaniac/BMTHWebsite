@@ -1,11 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import "./Store.css";
 
 export default function StoreHome() {
   const navigate = useNavigate();
 
   const handleSelect = (gender: string) => {
-    navigate(`/store/${gender.toLowerCase()}`);
+    navigate(`/store/apparel/${gender.toLowerCase()}`);
   };
 
   return (
@@ -21,7 +20,7 @@ export default function StoreHome() {
         <button onClick={() => handleSelect("Women")} className="store-btn">
           Women’s Collection
         </button>
-        <button onClick={() => handleSelect("All")} className="store-btn">
+        <button onClick={() => handleSelect("Unisex")} className="store-btn">
           View All
         </button>
       </div>

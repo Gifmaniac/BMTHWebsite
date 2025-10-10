@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#e91717" },
+    primary: { main: "#725386" },
     background: { default: "#725959ff", paper: "#000000ff" },
     text: { primary: "#fff", secondary: "#aaa" },
   },
@@ -17,14 +17,14 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#e91717",
+            borderColor: "#725386",
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ff3333",
+            borderColor: "#725386",
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ff5555",
-            boxShadow: "0 0 8px rgba(233, 23, 23, 0.6)",
+            borderColor: "#725386",
+            boxShadow: "0 0 30px #725386",
           },
         },
       },
@@ -32,11 +32,11 @@ const darkTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderColor: "#e917178a",
+          borderColor: "#725386",
           color: "#fff",
           "&:hover": {
-            borderColor: "#e91717",
-            boxShadow: "0 0 8px rgba(255, 0, 0, 0.5)",
+            borderColor: "#725386",
+            boxShadow: "0 0 30px #725386",
           },
         },
       },
