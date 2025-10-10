@@ -15,12 +15,11 @@ type TShirt = {
 
 function App() {
   
-  const [tshirts, setTShirts] = useState<TShirt[]>([])
-  const [error, setError] = useState<string | null>(null);
+  const [tshirts, setTshirts] = useState<TShirt[]>([])
 
   useEffect(() => {
     apiFetch<ProductOverview[]>("/store/tshirts?genders=Men")
-      .then(setTShirts)
+      .then(setTshirts)
       .catch((err: unknown) => console.error("API error:", err));
   }, []);
 

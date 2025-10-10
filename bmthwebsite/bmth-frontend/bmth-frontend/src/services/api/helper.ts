@@ -8,7 +8,7 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
     headers: {
       "accept": "application/json",
       "ApiKey": API_KEY,
-      ...(options.headers || {})
+      ...(options.headers)
     }
   });
 
