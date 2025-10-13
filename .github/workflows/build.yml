@@ -13,6 +13,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Debug working directory
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -la
+          echo "Contents of BMTHWebsite folder:"
+          ls -la BMTHWebsite || echo "BMTHWebsite folder not found"
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         with:
