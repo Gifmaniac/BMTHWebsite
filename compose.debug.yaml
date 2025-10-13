@@ -1,0 +1,12 @@
+services:
+  bmthfrontend:
+    image: bmthfrontend
+    build:
+      context: bmthwebsite/bmth-frontend/bmth-frontend
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5713:5713
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]

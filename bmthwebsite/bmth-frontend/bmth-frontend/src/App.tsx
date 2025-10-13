@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Sidebar } from "./components/sidebar"
 import StoreRoutes from "./pages/Store/storeroutes/StoreRoutes";
-import StoreGenderSelect from "./pages/Store/clothinggenderselect/clothinggenderselect";
+import StoreGenderSelect from "./pages/Store/storegenderselect/StoreGenderSelect";
 
 function App() {
   return (

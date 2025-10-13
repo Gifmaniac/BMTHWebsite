@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import StoreLayout from "../../../layout/storelayout/StoreLayout";
 import StoreOverview from "../storeoverview/StoreOverview";
 import ShirtDetail from "../Shopdetail/ShirtDetail";
-import ClothingGenderSelect from "../clothinggenderselect/clothinggenderselect"; 
+import ClothingGenderSelect from "../clothinggenderselect/ClothingGenderSelect"; 
 
 export default function StoreRoutes() {
   return (
