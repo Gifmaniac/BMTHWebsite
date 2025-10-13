@@ -13,6 +13,12 @@ type TShirt = {
   export default function StoreOverview() {
   const [tshirts, setTshirts] = useState<TShirt[]>([]);
   const { gender } = useParams<{ gender: string }>();
+  
+  const headerTextMap: Record<string, string> = {
+  men: "Men's Collection",
+  women: "Women's Collection",
+  unisex: "All Clothing"
+};
 
   useEffect(() => {
     
@@ -27,7 +33,7 @@ type TShirt = {
 
  return (
     <div className="store-container">
-      <h2 className="store-header">{gender ? `${gender}'s Collection` : "Our Collection"}</h2>
+      <h2 className="store-header">{gender ? headerTextMap[gender.toLocaleLowerCase()] || "Our Collection" : "Our Collection"}</h2>
 
       {tshirts.length === 0 ? (
         <p>No shirts available</p>
