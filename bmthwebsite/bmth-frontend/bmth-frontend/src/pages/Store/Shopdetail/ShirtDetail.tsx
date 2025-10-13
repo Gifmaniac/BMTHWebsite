@@ -19,11 +19,13 @@ function ShirtDetail() {
   useEffect(() => {
     if (!id) return;
     apiFetch<ProductDetail>(`/api/store/apparel/${id}`)
-      .then(setTshirt)
+      .then((data) => setTshirt(data))
       .catch((err: unknown) => console.error("API error:", err));
   }, [id]);
 
-  if (!tshirt) return <p>Loading...</p>;
+  if (!tshirt) {
+    return <p>Loading...</p>;
+  }
 
   // Maps a list for all available colors
     const colorOptions = Array.from(

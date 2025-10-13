@@ -20,7 +20,7 @@ export default function BasicSelect({
   options,
   onChange,
   width = 130,
-}: BasicSelectProps) {
+}: Readonly<BasicSelectProps>) {
   const id = label.toLowerCase().replace(/\s+/g, "-");
 
   return (
