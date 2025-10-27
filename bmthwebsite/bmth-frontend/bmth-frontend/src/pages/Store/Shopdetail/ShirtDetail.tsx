@@ -6,15 +6,15 @@ import BasicSelect from "../../../components/common/select/Select.tsx";
 import type { ProductDetail } from "../../../types/Product.ts";
 import { apiFetch } from "../../../services/api/helper.ts";
 import Box from "@mui/material/Box";
+import ShirtDetailImagePreview from "../../../components/product/ShirtDetailImagePreview.tsx";
 
 function ShirtDetail() {
   const { id } = useParams<{ id: string }>(); // get "id" from URL
   const [tshirt, setTshirt] = useState<ProductDetail | null>(null);
 
-  // State for the colors/ sizes dropdown
+  // State for the colors/ sizes dropdown/ img. preview
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-
 
   useEffect(() => {
     if (!id) return;
@@ -39,6 +39,10 @@ function ShirtDetail() {
     const sizeVariants = tshirt.variants.filter(
       (v) => v.color === selectedColor
     );
+    
+    // finds the tshirt imgs based on the color
+    const activeVariant = tshirt?.variants.find(
+      (v) => v.color.toLowerCase() === selectedColor.toLowerCase());
 
     const handleColorChange = (event: any) => {
     setSelectedColor(event.target.value);
@@ -58,7 +62,7 @@ function ShirtDetail() {
 
       <h3>Selected color</h3>
 
-      <Box display="flex" justifyContent="center" alignItems="center" sx={{ my: 2 }}>
+      <Box component="div" className="store-color-select">
         <BasicSelect
           label="Color"
           value={selectedColor}
@@ -67,16 +71,14 @@ function ShirtDetail() {
         />
       </Box>
 
-      {selectedColor && (
-        <>
-          <h3>Select Size</h3>
-          <Stack 
-            direction="row" 
-            spacing={2} 
-            flexWrap="wrap"
-            justifyContent="center"
-            alignItems="center"
-            >
+        {selectedColor && activeVariant?.imageUrlsList && activeVariant.imageUrlsList.length > 0 && (
+          <>
+            <ShirtDetailImagePreview
+              imageUrls={activeVariant.imageUrlsList}
+              selectedColor={selectedColor}
+            />
+
+        <Stack className="store-size-buttons" direction="row" spacing={2}>
             {sizeVariants.map((variant) => (
               <Button
                 key={variant.size}

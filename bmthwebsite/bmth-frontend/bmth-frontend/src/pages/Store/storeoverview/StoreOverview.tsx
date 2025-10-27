@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
+import { Grid, Typography } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import type { ProductOverview } from "../../../types/Product";
 import { apiFetch } from "../../../services/api/helper";
+import StoreItemCard from "../../../components/product/StoreItemCard";
 
-
-type TShirt = {
-  id : number;
-  name : string;
-  price : number;
-}
 
   export default function StoreOverview() {
-  const [tshirts, setTshirts] = useState<TShirt[]>([]);
+  const [tshirts, setTshirts] = useState<ProductOverview[]>([]);
   const { gender } = useParams<{ gender: string }>();
   
   const headerTextMap: Record<string, string> = {
@@ -32,21 +28,27 @@ type TShirt = {
   }, [gender]);
 
  return (
-    <div className="store-container">
-      <h2 className="store-header">{gender ? headerTextMap[gender.toLocaleLowerCase()] || "Our Collection" : "Our Collection"}</h2>
+    <div className="store-layout">
+      <Typography
+        variant="h5"
+        align="center"
+        className="store-header"
+      >
+        {gender
+          ? headerTextMap[gender.toLowerCase()] || "Our Collection"
+          : "Our Collection"}
+      </Typography>
 
       {tshirts.length === 0 ? (
-        <p>No shirts available</p>
+        <Typography color="white" align="center">
+          No shirts available
+        </Typography>
       ) : (
-        <ul className="store-grid">
+        <Grid container spacing={3} justifyContent="center">
           {tshirts.map((shirt) => (
-            <li key={shirt.id} className="store-item">
-              <Link to={`/store/tshirts/${shirt.id}`}>
-                {shirt.name} - €{shirt.price}
-              </Link>
-            </li>
+            <StoreItemCard key={shirt.id} product={shirt} />
           ))}
-        </ul>
+        </Grid>
       )}
     </div>
   );
