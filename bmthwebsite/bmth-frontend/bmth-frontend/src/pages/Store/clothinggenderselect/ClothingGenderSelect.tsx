@@ -17,7 +17,7 @@ export default function StoreHome() {
         <button onClick={() => handleSelect("Men")} className="store-btn">
           Men’s Collection
         </button>
-        <button onClick={() => handleSelect("Women")} className="store-btn">
+        <button onClick={() => handleSelect("Female")} className="store-btn">
           Women’s Collection
         </button>
         <button onClick={() => handleSelect("Unisex")} className="store-btn">
