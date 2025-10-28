@@ -15,6 +15,7 @@ function ShirtDetail() {
   // State for the colors/ sizes dropdown/ img. preview
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [mainImageIndex, setMainImageIndex] = useState(0);
 
   useEffect(() => {
     if (!id) return;
@@ -22,6 +23,18 @@ function ShirtDetail() {
       .then((data) => setTshirt(data))
       .catch((err: unknown) => console.error("API error:", err));
   }, [id]);
+
+  // Reset main image when color changes
+  useEffect(() => {
+    setMainImageIndex(0);
+  }, [selectedColor]);
+
+  // Default to first variant color so images show before selection
+  useEffect(() => {
+    if (tshirt && tshirt.variants.length > 0 && !selectedColor) {
+      setSelectedColor(tshirt.variants[0].color);
+    }
+  }, [tshirt, selectedColor]);
 
   if (!tshirt) {
     return <p>Loading...</p>;
@@ -40,9 +53,11 @@ function ShirtDetail() {
       (v) => v.color === selectedColor.toLowerCase()
     );
     
-    // finds the tshirt imgs based on the color
-    const activeVariant = tshirt.variants.find(
-      (v) => v.color.toLowerCase() === selectedColor.toLowerCase());
+    // finds the tshirt imgs based on the color, fallback to first variant
+    const activeVariant =
+      tshirt.variants.find(
+        (v) => v.color.toLowerCase() === selectedColor.toLowerCase()
+      ) ?? tshirt.variants[0];
 
     const handleColorChange = (event: any) => {
     setSelectedColor(event.target.value);
@@ -55,7 +70,7 @@ function ShirtDetail() {
 
 return (
   <Grid container spacing={4} alignItems="flex-start">
-    <Grid xs={12} md={6}>
+    <Grid item xs={12} md={6}>
       <Box
         sx={{
         display: "flex",
@@ -66,21 +81,25 @@ return (
       {/* Large image */}
       <Box
         sx={{
-        width: "80%",
-        display: "flex",
-        justifyContent: "center",
+          width: "100%",
+          maxWidth: 600,
+          mx: "auto",
+          aspectRatio: "1 / 1",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          "& img": { width: "100%", height: "100%", objectFit: "contain" },
         }}
       >
-        {selectedColor && activeVariant?.imageUrlsList?.length > 0 ? (
+        {activeVariant?.imageUrlsList?.length > 0 ? (
           <ShirtDetailImagePreview
-            imageUrls={activeVariant.imageUrlsList.slice(0)} // first image
+            imageUrls={[activeVariant.imageUrlsList[mainImageIndex]]}
             selectedColor={selectedColor}
           />
         ) : (
           <img
             src="/fallback-shirt.png"
             alt="Well, something went wrong, just imagine the shirt in your selected color!"
-            style={{ width: "10%", height: "auto", objectFit: "contain" }}
           />
         )}
       </Box>
@@ -88,32 +107,47 @@ return (
       {/* Smaller image */}
       <Box
         sx={{
-        width: "40%",
-        display: "flex",
-        justifyContent: "center",
+          width: "50%",
+          maxWidth: 360,
+          mx: "auto",
+          aspectRatio: "1 / 1",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          "& img": { width: "100%", height: "100%", objectFit: "contain" },
         }}
       >
-        {selectedColor && activeVariant?.imageUrlsList?.length > 1 ? (
-          <ShirtDetailImagePreview
-            imageUrls={activeVariant.imageUrlsList.slice(1)}
-            selectedColor={selectedColor}
-          />
-        ) : (
-          <img
-            src={
-              activeVariant?.imageUrlsList?.[0] ?? "/fallback-shirt.png"
-            }
-            alt="Weird, something went wrong, just imagine the shirt in your selected color!"
-            style={{ width: "50%", height: "auto", objectFit: "contain" }}
-          />
-        )}
+        {(() => {
+          const urls = activeVariant?.imageUrlsList || [];
+          const count = urls.length;
+          const hasSecondary = count > 1;
+          const secondaryIndex = hasSecondary ? (mainImageIndex + 1) % count : null;
+
+          if (hasSecondary && secondaryIndex !== null) {
+            return (
+              <img
+                src={urls[secondaryIndex]}
+                alt="Woops something whent wrong, just imagine another picture of the same product, you can do this!"
+                style={{ cursor: "pointer" }}
+                onClick={() => setMainImageIndex(secondaryIndex)}
+              />
+            );
+          }
+
+          return (
+            <img
+              src={activeVariant?.imageUrlsList?.[0] ?? "/fallback-shirt.png"}
+              alt="Weird, something went wrong, just imagine the shirt in your selected color!"
+            />
+          );
+        })()}
       </Box>
     </Box>
   </Grid>
 
 
     {/* RIGHT SIDE Product info */}
-    <Grid xs={12} md={6} alignItems="flex-end">
+    <Grid item xs={12} md={6} alignItems="flex-end">
       <Box mb={2}>
         <h2>{tshirt.name}</h2>
         <p><strong>Price:</strong> €{tshirt.price}</p>

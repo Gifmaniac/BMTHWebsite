@@ -1,0 +1,87 @@
+*** Begin Patch
+*** Update File: bmth-frontend/bmth-frontend/src/pages/Store/Shopdetail/ShirtDetail.tsx
+@@
+-return (
+-  <Grid container spacing={4} alignItems="flex-start">
+-    <Grid xs={12} md={6}>
++return (
++  <Grid container spacing={4} alignItems="flex-start">
++    <Grid item xs={12} md={6}>
+@@
+-      <Box
+-        sx={{
+-        width: "80%",
+-        display: "flex",
+-        justifyContent: "center",
+-        }}
+-      >
++      <Box
++        sx={{
++          width: "100%",
++          maxWidth: 600,
++          mx: "auto",
++          aspectRatio: "1 / 1",
++          display: "flex",
++          alignItems: "center",
++          justifyContent: "center",
++          "& img": { width: "100%", height: "100%", objectFit: "contain" },
++        }}
++      >
+         {selectedColor && activeVariant?.imageUrlsList?.length > 0 ? (
+           <ShirtDetailImagePreview
+-            imageUrls={activeVariant.imageUrlsList.slice(0)} // first image
++            imageUrls={activeVariant.imageUrlsList.slice(0, 1)} // first image
+             selectedColor={selectedColor}
+           />
+         ) : (
+           <img
+-          src="/fallback-shirt.png"
+-          alt="Well, something went wrong, just imagine the shirt in your selected color!"
+-          style={{ width: "100%"}}
++            src="/fallback-shirt.png"
++            alt="Well, something went wrong, just imagine the shirt in your selected color!"
+           />
+         )}
+       </Box>
+@@
+-      <Box
+-        sx={{
+-        width: "40%",
+-        display: "flex",
+-        justifyContent: "center",
+-        }}
+-      >
++      <Box
++        sx={{
++          width: "100%",
++          maxWidth: 360,
++          mx: "auto",
++          aspectRatio: "1 / 1",
++          display: "flex",
++          alignItems: "center",
++          justifyContent: "center",
++          "& img": { width: "100%", height: "100%", objectFit: "contain" },
++        }}
++      >
+         {selectedColor && activeVariant?.imageUrlsList?.length > 1 ? (
+           <ShirtDetailImagePreview
+             imageUrls={activeVariant.imageUrlsList.slice(1)}
+             selectedColor={selectedColor}
+           />
+         ) : (
+           <img
+             src={
+               activeVariant?.imageUrlsList?.[0] ?? "/fallback-shirt.png"
+             }
+             alt="Weird, something went wrong, just imagine the shirt in your selected color!"
+-            style={{ width: "50%"}}
+           />
+         )}
+       </Box>
+     </Box>
+-  </Grid>
++  </Grid>
+@@
+-    <Grid xs={12} md={6} alignItems="flex-end">
++    <Grid item xs={12} md={6} alignItems="flex-end">
+*** End Patch
