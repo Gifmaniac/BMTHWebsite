@@ -1,6 +1,6 @@
 import { Grid, Card, CardActionArea, CardMedia, CardContent, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import type { ProductOverview } from "../../types/Product";
+import type { ProductOverview } from "../../types/Store/Product";
 
 interface ProductCard {
     product : ProductOverview;

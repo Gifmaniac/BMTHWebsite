@@ -1,5 +1,4 @@
-import ShirtDetail from "../../../pages/Store/Shopdetail/ShirtDetail";
-import { ProductDetail } from "../../../types/Product.ts";
+import type { ProductDetail } from "../../../types/Store/Product";
 import "@testing-library/jest-dom";
 
 describe("Variant", () => {

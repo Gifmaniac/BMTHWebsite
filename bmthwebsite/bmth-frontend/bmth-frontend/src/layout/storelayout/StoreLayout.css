@@ -110,6 +110,8 @@
 .store-size-buttons {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .store-size-buttons button {
