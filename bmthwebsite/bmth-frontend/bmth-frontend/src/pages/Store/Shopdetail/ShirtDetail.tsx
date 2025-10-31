@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, Stack } from "@mui/material";
 import BasicSelect from "../../../components/common/select/Select.tsx";
 import ShirtDetailImagePreview from "../../../components/product/ProductDetailImagePreview.tsx";
-import type { ProductDetail, CreatedProduct } from "../../../types/Store/Product.ts";
+import type { ProductDetail } from "../../../types/Store/Product.ts";
 import { apiFetch } from "../../../services/api/helper.ts";
-import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
+import { CartContext } from "../../../context/store/CartContext.tsx";
 
 function ShirtDetail() {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +14,7 @@ function ShirtDetail() {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImageIndex, setMainImageIndex] = useState(0);
+  const cart = useContext(CartContext);
 
   useEffect(() => {
     if (!id) return;
@@ -53,6 +54,24 @@ function ShirtDetail() {
   };
 
   const handleSizeSelect = (size: string) => setSelectedSize(size);
+
+  const handleAddToCart = () => {
+    if (!tshirt || !selectedColor || !selectedSize) return;
+
+    const variantForColor = tshirt.variants.find(
+      (v) => v.color.toLowerCase() === selectedColor.toLowerCase()
+    );
+
+    cart?.addToCart({
+      productId: tshirt.id,
+      name: tshirt.name,
+      price: tshirt.price,
+      imageUrl: variantForColor?.imageUrlsList?.[0],
+      color: selectedColor,
+      size: selectedSize,
+      quantity: 1,
+    });
+  };
 
   return (
     <Grid container spacing={4} alignItems="flex-start">
@@ -164,10 +183,11 @@ function ShirtDetail() {
 
             <Box mb={2} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
               <Button
-                variant="outlined" 
-                disabled={!selectedSize && !selectedColor}>
-                onClick{() => CreatedProduct(Tshirt, selectedColor, selectedSize)}
-               <Link to ="/store/cart">Add to Cart</Link>
+                variant="outlined"
+                disabled={!selectedSize || !selectedColor}
+                onClick={handleAddToCart}
+              >
+                Add to Cart
               </Button>
               <Button 
                 variant="outlined"

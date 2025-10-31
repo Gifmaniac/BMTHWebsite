@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { CartProvider } from "./context/store/CartContext.tsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -49,7 +50,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

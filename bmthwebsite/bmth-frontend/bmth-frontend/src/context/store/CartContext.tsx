@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
-import type { CartItem} from "../../types/Store/Cart";
+import type { CartItem } from "../../types/Store/Cart";
 
 
 type CartContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (variantId: number) => void;
+  removeFromCart: (key: { productId: number; color: string; size: string }) => void;
   clearCart: () => void;
 };
 
@@ -23,22 +23,34 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cart]);
 
   const addToCart = (item: CartItem) => {
-    setCart(prev => {
-      const existing = prev.find(i => i === item);
-      if (existing) {
-        return prev.map(i =>
-          i.variantId === item.variantId
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        );
-      } else {
-        return [...prev, item];
+    setCart((prev) => {
+      const index = prev.findIndex(
+        (i) =>
+          i.productId === item.productId &&
+          i.color === item.color &&
+          i.size === item.size
+      );
+
+      if (index >= 0) {
+        const next = [...prev];
+        next[index] = {
+          ...next[index],
+          quantity: next[index].quantity + item.quantity,
+        };
+        return next;
       }
+
+      return [...prev, item];
     });
   };
 
-  const removeFromCart = (variantId: number) => {
-    setCart(prev => prev.filter(i => i.variantId !== variantId));
+  const removeFromCart = (key: { productId: number; color: string; size: string }) => {
+    setCart((prev) =>
+      prev.filter(
+        (i) =>
+          !(i.productId === key.productId && i.color === key.color && i.size === key.size)
+      )
+    );
   };
 
   const clearCart = () => setCart([]);
