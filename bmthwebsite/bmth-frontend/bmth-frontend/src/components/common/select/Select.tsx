@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,7 +20,7 @@ export default function BasicSelect({
   onChange,
   width = 130,
 }: Readonly<BasicSelectProps>) {
-  const id = label.toLowerCase().replace(/\s+/g, "-");
+  const id = label.toLowerCase();
 
   return (
     <Box 

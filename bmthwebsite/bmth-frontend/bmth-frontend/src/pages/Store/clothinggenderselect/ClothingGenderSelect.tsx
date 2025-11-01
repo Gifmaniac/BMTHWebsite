@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export default function StoreHome() {
   const navigate = useNavigate();
@@ -14,15 +15,15 @@ export default function StoreHome() {
       </p>
 
       <div className="store-gender-buttons">
-        <button onClick={() => handleSelect("Men")} className="store-btn">
+        <Button onClick={() => handleSelect("Men")} className="store-btn">
           Men’s Collection
-        </button>
-        <button onClick={() => handleSelect("Female")} className="store-btn">
+        </Button>
+        <Button onClick={() => handleSelect("Female")} className="store-btn">
           Women’s Collection
-        </button>
-        <button onClick={() => handleSelect("Unisex")} className="store-btn">
+        </Button>
+        <Button onClick={() => handleSelect("Unisex")} className="store-btn">
           View All
-        </button>
+        </Button>
       </div>
     </div>
   );

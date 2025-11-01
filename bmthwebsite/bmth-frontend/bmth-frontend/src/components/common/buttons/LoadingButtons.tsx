@@ -1,55 +1,54 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Stack from '@mui/material/Stack';
 
 export default function LoadingButtons() {
   return (
     <Stack spacing={2}>
       <Stack direction="row" spacing={2}>
-        <Button loading variant="outlined">
+        <LoadingButton loading variant="outlined">
           Submit
-        </Button>
-        <Button loading loadingIndicator="Loading…" variant="outlined">
+        </LoadingButton>
+        <LoadingButton loading loadingIndicator="Loading…" variant="outlined">
           Fetch data
-        </Button>
-        <Button
+        </LoadingButton>
+        <LoadingButton
           loading
           loadingPosition="start"
           variant="outlined"
         >
           Save
-        </Button>
+        </LoadingButton>
       </Stack>
-      <Button
+      <LoadingButton
         fullWidth
         loading
         loadingPosition="start"
         variant="outlined"
       >
         Full width
-      </Button>
-      <Button
+      </LoadingButton>
+      <LoadingButton
         fullWidth
         loading
         loadingPosition="end"
         variant="outlined"
       >
         Full width
-      </Button>
+      </LoadingButton>
       <Stack direction="row" spacing={2}>
-        <Button loading variant="outlined" loadingPosition="start">
+        <LoadingButton loading variant="outlined" loadingPosition="start">
           Submit
-        </Button>
-        <Button loading variant="outlined" loadingPosition="end">
+        </LoadingButton>
+        <LoadingButton loading variant="outlined" loadingPosition="end">
           Submit
-        </Button>
-        <Button
+        </LoadingButton>
+        <LoadingButton
           loading
           variant="outlined"
           loadingPosition="end"
         >
           Save
-        </Button>
+        </LoadingButton>
       </Stack>
     </Stack>
   );

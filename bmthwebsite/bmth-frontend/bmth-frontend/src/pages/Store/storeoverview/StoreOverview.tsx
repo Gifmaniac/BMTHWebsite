@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type { ProductOverview } from "../../../types/Store/Product";
 import { apiFetch } from "../../../services/api/helper";
 import StoreItemCard from "../../../components/product/StoreItemCard";

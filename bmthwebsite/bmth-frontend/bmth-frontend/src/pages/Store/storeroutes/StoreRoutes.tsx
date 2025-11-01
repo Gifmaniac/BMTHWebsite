@@ -3,6 +3,7 @@ import StoreLayout from "../../../layout/storelayout/StoreLayout";
 import StoreOverview from "../storeoverview/StoreOverview";
 import ShirtDetail from "../Shopdetail/ShirtDetail";
 import ClothingGenderSelect from "../clothinggenderselect/ClothingGenderSelect"; 
+import CartDetails from "../cart/Cart";
 
 export default function StoreRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function StoreRoutes() {
         <Route path="apparel" element={<ClothingGenderSelect />} />
         <Route path="apparel/:gender" element={<StoreOverview />} />
         <Route path="tshirts/:id" element={<ShirtDetail />} />
+        <Route path="cart" element={<CartDetails />} />
       </Route>
     </Routes>
   );

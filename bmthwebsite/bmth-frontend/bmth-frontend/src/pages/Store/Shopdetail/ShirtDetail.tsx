@@ -1,6 +1,6 @@
-import { Link, useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { Box, Button, Grid, Stack } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { Box, Button, Grid, Stack, Snackbar, Alert } from "@mui/material";
 import BasicSelect from "../../../components/common/select/Select.tsx";
 import ShirtDetailImagePreview from "../../../components/product/ProductDetailImagePreview.tsx";
 import type { ProductDetail } from "../../../types/Store/Product.ts";
@@ -15,6 +15,7 @@ function ShirtDetail() {
   const [selectedSize, setSelectedSize] = useState("");
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const cart = useContext(CartContext);
+  const [showAdded, setShowAdded] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -35,18 +36,43 @@ function ShirtDetail() {
     }
   }, [tshirt, selectedColor]);
 
-  if (!tshirt) return <p>Loading...</p>;
+  const variants = tshirt?.variants ?? [];
 
-  const colorOptions = Array.from(new Set(tshirt.variants.map(v => v.color)))
-    .map(color => ({ label: color, value: color }));
-
-  const sizeVariants = tshirt.variants.filter(
-    v => v.color.toLowerCase() === selectedColor.toLowerCase()
+  const colorOptions = useMemo(
+    () => Array.from(new Set(variants.map(v => v.color))).map(color => ({ label: color, value: color })),
+    [variants]
   );
 
-  const activeVariant =
-    tshirt.variants.find(v => v.color.toLowerCase() === selectedColor.toLowerCase())
-    ?? tshirt.variants[0];
+  const sizeVariants = useMemo(
+    () => variants.filter(
+      v => v.color.toLowerCase() === selectedColor.toLowerCase()
+    ),
+    [variants, selectedColor]
+  );
+
+  const activeVariant = useMemo(
+    () =>
+      variants.find(v => v.color.toLowerCase() === selectedColor.toLowerCase())
+      ?? variants[0],
+    [variants, selectedColor]
+  );
+
+  const selectedVariant = useMemo(
+    () =>
+      variants.find(
+        (v) => v.color.toLowerCase() === selectedColor.toLowerCase() && v.size === selectedSize
+      ) || null,
+    [variants, selectedColor, selectedSize]
+  );
+  const selectedVariantIndex = useMemo(
+    () =>
+      variants.findIndex(
+        (v) => v.color.toLowerCase() === selectedColor.toLowerCase() && v.size === selectedSize
+      ),
+    [variants, selectedColor, selectedSize]
+  );
+
+  if (!tshirt) return <p>Loading...</p>;
 
   const handleColorChange = (event: any) => {
     setSelectedColor(event.target.value);
@@ -55,22 +81,21 @@ function ShirtDetail() {
 
   const handleSizeSelect = (size: string) => setSelectedSize(size);
 
+  
+
   const handleAddToCart = () => {
-    if (!tshirt || !selectedColor || !selectedSize) return;
-
-    const variantForColor = tshirt.variants.find(
-      (v) => v.color.toLowerCase() === selectedColor.toLowerCase()
-    );
-
-    cart?.addToCart({
+    if (!tshirt || !selectedColor || !selectedSize || !cart) return;
+    cart.addToCart({
       productId: tshirt.id,
       name: tshirt.name,
       price: tshirt.price,
-      imageUrl: variantForColor?.imageUrlsList?.[0],
+      variantId: selectedVariantIndex,
+      imageUrl: selectedVariant?.imageUrlsList?.[0] ?? activeVariant?.imageUrlsList?.[0],
       color: selectedColor,
       size: selectedSize,
       quantity: 1,
     });
+    setShowAdded(true);
   };
 
   return (
@@ -184,7 +209,7 @@ function ShirtDetail() {
             <Box mb={2} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
               <Button
                 variant="outlined"
-                disabled={!selectedSize || !selectedColor}
+                disabled={!selectedSize || !selectedColor || !cart}
                 onClick={handleAddToCart}
               >
                 Add to Cart
@@ -196,6 +221,16 @@ function ShirtDetail() {
               </Button>
             </Box> 
         </Box>
+        <Snackbar
+          open={showAdded}
+          autoHideDuration={2000}
+          onClose={() => setShowAdded(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert severity="success" onClose={() => setShowAdded(false)} sx={{ width: '100%' }}>
+            Added to cart
+          </Alert>
+        </Snackbar>
       </Grid>
     </Grid>
   );

@@ -12,6 +12,7 @@ export default function StoreLayout() {
             <Link to="/">HOME</Link>
             <Link to="/store/music">MUSIC</Link>
             <Link to="/store/apparel">APPAREL</Link>
+            <Link to="/store/cart">CART</Link>
             </nav>
         </header>
 
