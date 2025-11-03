@@ -5,7 +5,7 @@ import type { CartItem } from "../../types/Store/Cart";
 type CartContextType = {
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (key: { productId: number; color: string; size: string }) => void;
+  removeFromCart: (key: { productId: number; color: string; size: string; variantId: number }) => void;
   clearCart: () => void;
 };
 
@@ -45,11 +45,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
-  const removeFromCart = useCallback((key: { productId: number; color: string; size: string }) => {
+  const removeFromCart = useCallback((key: { productId: number; color: string; size: string; variantId: number }) => {
     setCart((prev) =>
       prev.filter(
         (i) =>
-          !(i.productId === key.productId && i.color === key.color && i.size === key.size)
+          !(i.productId === key.productId && i.color === key.color && i.size === key.size && i.variantId === key.variantId)
       )
     );
   }, []);

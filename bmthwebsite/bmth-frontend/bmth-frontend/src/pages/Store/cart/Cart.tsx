@@ -2,10 +2,41 @@ import React, { useContext } from "react";
 import { CartContext } from "../../../context/store/CartContext.tsx";
 import { Box, Typography, Button, Stack, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { createOrder } from "../../../services/api/orders";
 
 function CartDetails() {
   const cart = useContext(CartContext);
   const items = cart?.cart || [];
+
+  const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+  const [success, setSuccess] = React.useState<string | null>(null);
+
+  const handleBuy = async () => {
+    if (!cart || items.length === 0) return;
+    setSubmitting(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const payload = {
+        items: items.map((i) => ({
+          productId: i.productId,
+          variantId: i.variantId,
+          color: i.color,
+          size: i.size,
+          quantity: i.quantity,
+        })),
+      };
+
+      await createOrder(payload);
+      setSuccess("Order placed successfully.");
+      cart.clearCart();
+    } catch (e: any) {
+      setError(e?.message ?? "Failed to place order");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
 
   return (
@@ -59,7 +90,13 @@ function CartDetails() {
               <Button
                 color="error"
                 variant="outlined"
-                onClick={() => cart?.removeFromCart(item)}
+                onClick={() =>
+                  cart?.removeFromCart({
+                    productId: item.productId,
+                    color: item.color,
+                    size: item.size,
+                  })
+                }
               >
                 Remove
               </Button>
@@ -74,6 +111,29 @@ function CartDetails() {
                 .reduce((sum, item) => sum + item.price * item.quantity, 0)
                 .toFixed(2)}
             </Typography>
+          </Box>
+
+          <Box sx={{ mt: 2 }}>
+            <Stack direction="row" alignItems="center" justifyContent="flex-end" gap={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleBuy}
+                disabled={submitting}
+              >
+                {submitting ? "Placing order..." : "Buy Now"}
+              </Button>
+            </Stack>
+            {error && (
+              <Typography color="error" sx={{ mt: 2 }}>
+                {error}
+              </Typography>
+            )}
+            {success && (
+              <Typography color="success.main" sx={{ mt: 2 }}>
+                {success}
+              </Typography>
+            )}
           </Box>
         </>
       )}
