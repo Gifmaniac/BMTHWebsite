@@ -15,13 +15,16 @@ export default function StoreHome() {
       </p>
 
       <div className="store-gender-buttons">
-        <Button onClick={() => handleSelect("Men")} className="store-btn">
+        <Button onClick={() => handleSelect("men")} className="store-btn"
+          variant="contained">
           Men’s Collection
         </Button>
-        <Button onClick={() => handleSelect("Female")} className="store-btn">
-          Women’s Collection
+        <Button onClick={() => handleSelect("female")} className="store-btn"
+          variant="contained">
+          Female's Collection
         </Button>
-        <Button onClick={() => handleSelect("Unisex")} className="store-btn">
+        <Button onClick={() => handleSelect("unisex")} className="store-btn"
+          variant="contained">
           View All
         </Button>
       </div>

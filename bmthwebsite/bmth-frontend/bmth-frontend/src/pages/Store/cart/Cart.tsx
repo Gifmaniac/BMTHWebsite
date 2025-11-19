@@ -95,6 +95,7 @@ function CartDetails() {
                     productId: item.productId,
                     color: item.color,
                     size: item.size,
+                    variantId: item.variantId,
                   })
                 }
               >

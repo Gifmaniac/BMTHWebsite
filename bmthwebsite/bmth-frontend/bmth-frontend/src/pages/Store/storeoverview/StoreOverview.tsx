@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
-import { Grid, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type { ProductOverview } from "../../../types/Store/Product";
 import { apiFetch } from "../../../services/api/helper";
-import StoreItemCard from "../../../components/product/StoreItemCard";
 
+
+type TShirt = {
+  id : number;
+  name : string;
+  price : number;
+}
 
   export default function StoreOverview() {
-  const [tshirts, setTshirts] = useState<ProductOverview[]>([]);
+  const [tshirts, setTshirts] = useState<TShirt[]>([]);
   const { gender } = useParams<{ gender: string }>();
   
   const headerTextMap: Record<string, string> = {
@@ -26,29 +30,23 @@ import StoreItemCard from "../../../components/product/StoreItemCard";
       .then(setTshirts)
       .catch((err: unknown) => console.error("API error:", err));
   }, [gender]);
-
+  
  return (
-    <div className="store-layout">
-      <Typography
-        variant="h5"
-        align="center"
-        className="store-header"
-      >
-        {gender
-          ? headerTextMap[gender.toLowerCase()] || "Our Collection"
-          : "Our Collection"}
-      </Typography>
+    <div className="store-container">
+      <h2 className="store-header">{gender ? headerTextMap[gender.toLocaleLowerCase()] || "Our Collection" : "Our Collection"}</h2>
 
       {tshirts.length === 0 ? (
-        <Typography color="white" align="center">
-          No shirts available
-        </Typography>
+        <p>No shirts available</p>
       ) : (
-        <Grid container spacing={3} justifyContent="center">
+        <ul className="store-grid">
           {tshirts.map((shirt) => (
-            <StoreItemCard key={shirt.id} product={shirt} />
+            <li key={shirt.id} className="store-item">
+              <Link to={`/store/tshirts/${shirt.id}`}>
+                {shirt.name} - €{shirt.price}
+              </Link>
+            </li>
           ))}
-        </Grid>
+        </ul>
       )}
     </div>
   );

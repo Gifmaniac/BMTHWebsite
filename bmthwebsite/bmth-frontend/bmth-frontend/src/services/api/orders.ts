@@ -2,14 +2,15 @@ import { apiFetch } from "./helper";
 
 export type CreateOrderItem = {
   productId: number;
-  variantId?: number;
+  variantId: number;
   color: string;
   size: string;
   quantity: number;
 };
 
 export type CreateOrderRequest = {
-  items: CreateOrderItem[];
+  userId: number;
+  orders: CreateOrderItem[];
 };
 
 export async function createOrder(payload: CreateOrderRequest): Promise<unknown> {
