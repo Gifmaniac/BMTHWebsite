@@ -25,6 +25,7 @@ function CartDetails() {
           color: i.color,
           size: i.size,
           quantity: i.quantity,
+          price: i.price
         })),
       };
 

@@ -13,6 +13,7 @@ export default function StoreLayout() {
             <Link to="/store/music">MUSIC</Link>
             <Link to="/store/apparel">APPAREL</Link>
             <Link to="/store/cart">CART</Link>
+            <Link to="/register">REGISTER</Link>
             </nav>
         </header>
 
