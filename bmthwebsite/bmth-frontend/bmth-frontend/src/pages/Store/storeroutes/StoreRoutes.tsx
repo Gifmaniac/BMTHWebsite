@@ -5,6 +5,7 @@ import ShirtDetail from "../Shopdetail/ShirtDetail";
 import ClothingGenderSelect from "../clothinggenderselect/ClothingGenderSelect"; 
 import CartDetails from "../cart/Cart";
 import Register from "../../User/register/register";
+import Login from "../../User/login/Login";
 
 export default function StoreRoutes() {
   return (
@@ -16,6 +17,7 @@ export default function StoreRoutes() {
         <Route path="tshirts/:id" element={<ShirtDetail />} />
         <Route path="cart" element={<CartDetails />} />
         <Route path="register" element={<Register />} />
+        <Route path="login" element={<Login />} />
       </Route>
     </Routes>
   );

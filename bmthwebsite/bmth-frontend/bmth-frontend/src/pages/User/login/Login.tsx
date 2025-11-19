@@ -1,67 +1,50 @@
 import { useState } from "react";
-import {  Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography,} from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import "../auth.css";
-import { registerUser } from "../../../services/api/users";
 
-type RegisterForm = {
-  firstName: string;
-  lastName: string;
+type LoginForm = {
   email: string;
   password: string;
 };
 
-const initialValues: RegisterForm = {
-  firstName: "",
-  lastName: "",
+const initialValues: LoginForm = {
   email: "",
   password: "",
 };
 
-export default function Register() {
-  const [values, setValues] = useState<RegisterForm>(initialValues);
+export default function Login() {
+  const [values, setValues] = useState<LoginForm>(initialValues);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(
     null
   );
   const [submitting, setSubmitting] = useState(false);
 
   const handleChange =
-    (field: keyof RegisterForm) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof LoginForm) => (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       setValues((prev) => ({ ...prev, [field]: value }));
     };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitting(true);
     setStatus(null);
+    setSubmitting(true);
 
     try {
-      await registerUser({
-        firstName: values.firstName.trim(),
-        lastName: values.lastName.trim(),
-        email: values.email.trim(),
-        password: values.password,
-      });
-      setStatus({
-        type: "success",
-        message: "Account created successfully. You can sign in once verified.",
-      });
+      // TODO: Make the login logic and connect it. 
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      setStatus({ type: "success", message: "Signed in successfully. Redirecting..." });
       setValues(initialValues);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to create account.";
+      const message = error instanceof Error ? error.message : "Unable to sign in.";
       setStatus({ type: "error", message });
     } finally {
       setSubmitting(false);
     }
   };
 
-  const isSubmitDisabled =
-    submitting ||
-    !values.firstName.trim() ||
-    !values.lastName.trim() ||
-    !values.email.trim() ||
-    !values.password;
+  const isSubmitDisabled = submitting || !values.email.trim() || !values.password;
 
   return (
     <Box className="auth-page">
@@ -69,45 +52,24 @@ export default function Register() {
         <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
           <Stack spacing={1}>
             <Typography variant="overline" color="primary" letterSpacing="0.2em">
-              Become a member
+              Welcome back
             </Typography>
             <Typography variant="h4" fontWeight={700}>
-              Create your account
+              Sign in to your account
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Join the community for exclusive drops, presale alerts, and more.
+              Access exclusive drops, presale alerts, and your orders.
             </Typography>
           </Stack>
 
           {status && (
-            <Alert
-              severity={status.type}
-              sx={{ mt: 3 }}
-              onClose={() => setStatus(null)}
-            >
+            <Alert severity={status.type} sx={{ mt: 3 }} onClose={() => setStatus(null)}>
               {status.message}
             </Alert>
           )}
 
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Stack spacing={2.5}>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField
-                  label="First name"
-                  value={values.firstName}
-                  onChange={handleChange("firstName")}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  label="Last name"
-                  value={values.lastName}
-                  onChange={handleChange("lastName")}
-                  fullWidth
-                  required
-                />
-              </Stack>
-
               <TextField
                 label="Email address"
                 type="email"
@@ -133,18 +95,15 @@ export default function Register() {
                 disabled={isSubmitDisabled}
                 sx={{ py: 1.2, fontWeight: 600 }}
               >
-                {submitting ? "Creating account..." : "Create account"}
+                {submitting ? "Signing in..." : "Sign in"}
               </Button>
             </Stack>
           </Box>
-          
 
           <Typography variant="body2" textAlign="center" sx={{ mt: 4 }}>
-            <Link component={RouterLink} to="/login" underline="hover">
-            Already have an account?
-            </Link>
-            <Link component={RouterLink} to="/store" underline="hover">
-              Return to the store
+            New here?{" "}
+            <Link component={RouterLink} to="/register" underline="hover">
+              Create an account
             </Link>
           </Typography>
         </CardContent>
