@@ -6,6 +6,7 @@
   height: 100%;
   font-family: "Poppins", sans-serif;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .store-header {
@@ -24,7 +25,7 @@
 
 .store-nav {
   display: flex;
-  background-color: #725386;
+  background: linear-gradient(90deg, rgba(114, 83, 134, 0.9), rgba(114, 83, 134, 0.8));
   border-bottom:  #ce2020;
   font-family: 'Cinzel', serif;
   font-weight: 700;
@@ -33,6 +34,7 @@
   gap: 3rem;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  box-shadow: 0 14px 60px rgba(114, 83, 134, 0.45);
 }
 
 .store-nav a {
@@ -49,7 +51,11 @@
 }
 
 .store-main {
-  padding: 3rem 2rem;
+  padding: 2rem 1rem 3rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .store-footer {
