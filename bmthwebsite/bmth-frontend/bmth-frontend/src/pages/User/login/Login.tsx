@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { loginUser } from "../../../services/api/users";
+import type { ApiError } from "../../../services/api/helper";
 import "../auth.css";
 
 type LoginForm = {
@@ -14,6 +16,7 @@ const initialValues: LoginForm = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [values, setValues] = useState<LoginForm>(initialValues);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(
     null
@@ -32,14 +35,53 @@ export default function Login() {
     setSubmitting(true);
 
     try {
-      // TODO: Make the login logic and connect it. 
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      const response = await loginUser({
+        email: values.email.trim(),
+        password: values.password,
+      });
+
+      const authErrors =
+        response.authList?.filter((item): item is string => typeof item === "string") ?? [];
+
+      if (authErrors.length) {
+        setStatus({ type: "error", message: authErrors.join(" ") });
+        return;
+      }
+
       setStatus({ type: "success", message: "Signed in successfully. Redirecting..." });
       setValues(initialValues);
+      setTimeout(() => navigate("/store"), 600);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to sign in.";
+      const apiError = error as ApiError;
+      const data = apiError?.data;
+
+      const rootErrors =
+        data && typeof data === "object" && Array.isArray((data as { authList?: unknown }).authList)
+          ? (data as { authList: unknown[] }).authList
+          : [];
+
+      const nestedErrors =
+        data &&
+        typeof data === "object" &&
+        (data as { errors?: Record<string, unknown> }).errors &&
+        Array.isArray((data as { errors?: Record<string, unknown> }).errors?.AuthList)
+          ? (data as { errors: Record<string, unknown> }).errors?.AuthList
+          : [];
+
+      const authErrors = [...rootErrors, ...nestedErrors].filter(
+        (item): item is string => typeof item === "string"
+      );
+
+      const message =
+        authErrors.length > 0
+          ? authErrors.join(" ")
+          : apiError instanceof Error
+          ? apiError.message
+          : "Unable to sign in.";
+
       setStatus({ type: "error", message });
-    } finally {
+    } 
+    finally {
       setSubmitting(false);
     }
   };

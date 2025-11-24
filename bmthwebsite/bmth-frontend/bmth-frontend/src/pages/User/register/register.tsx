@@ -1,8 +1,9 @@
 import { useState } from "react";
-import {  Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography,} from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import "../auth.css";
 import { registerUser } from "../../../services/api/users";
+import type { ApiError } from "../../../services/api/helper";
 
 type RegisterForm = {
   firstName: string;
@@ -20,7 +21,7 @@ const initialValues: RegisterForm = {
 
 export default function Register() {
   const [values, setValues] = useState<RegisterForm>(initialValues);
-  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(
+  const [status, setStatus] = useState<{ type: "success" | "error"; messages: string[] } | null>(
     null
   );
   const [submitting, setSubmitting] = useState(false);
@@ -37,20 +38,55 @@ export default function Register() {
     setStatus(null);
 
     try {
-      await registerUser({
+      const response = await registerUser({
         firstName: values.firstName.trim(),
         lastName: values.lastName.trim(),
         email: values.email.trim(),
         password: values.password,
       });
+
+      const authErrors =
+        response.authList?.filter((item): item is string => typeof item === "string") ?? [];
+
+      if (authErrors.length) {
+        setStatus({ type: "error", messages: authErrors });
+        return;
+      }
+
       setStatus({
         type: "success",
-        message: "Account created successfully. You can sign in once verified.",
+        messages: ["Account created successfully. You can sign in once verified."],
       });
       setValues(initialValues);
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to create account.";
-      setStatus({ type: "error", message });
+      const apiError = error as ApiError;
+      const data = apiError?.data;
+
+      const rootErrors =
+        data && typeof data === "object" && Array.isArray((data as { authList?: unknown }).authList)
+          ? (data as { authList: unknown[] }).authList
+          : [];
+
+      const nestedErrors =
+        data &&
+        typeof data === "object" &&
+        (data as { errors?: Record<string, unknown> }).errors &&
+        Array.isArray((data as { errors?: Record<string, unknown> }).errors?.AuthList)
+          ? (data as { errors: Record<string, unknown> }).errors?.AuthList
+          : [];
+
+      const authErrors = [...rootErrors, nestedErrors].filter(
+        (item): item is string => typeof item === "string"
+      );
+
+      const messages =
+        authErrors.length > 0
+          ? authErrors
+          : apiError instanceof Error
+          ? [apiError.message]
+          : ["Unable to create account."];
+
+      setStatus({ type: "error", messages });
     } finally {
       setSubmitting(false);
     }
@@ -80,12 +116,14 @@ export default function Register() {
           </Stack>
 
           {status && (
-            <Alert
-              severity={status.type}
-              sx={{ mt: 3 }}
-              onClose={() => setStatus(null)}
-            >
-              {status.message}
+            <Alert severity={status.type} sx={{ mt: 3 }} onClose={() => setStatus(null)}>
+              <Stack spacing={0.5}>
+                {status.messages.map((msg) => (
+                  <Typography key={`${status.type}-${msg}`} variant="body2">
+                    {msg}
+                  </Typography>
+                ))}
+              </Stack>
             </Alert>
           )}
 

@@ -12,10 +12,31 @@ export type RegisterUserResponse = {
   email: string;
   firstName: string;
   lastName: string;
-}
+  authList?: string[];
+};
+
+export type LoginUserRequest = {
+  email: string;
+  password: string;
+};
+
+export type LoginUserResponse = {
+  token?: string;
+  authList?: string[];
+};
 
 export async function registerUser(payload: RegisterUserRequest): Promise<RegisterUserResponse> {
   return apiFetch<RegisterUserResponse>("/api/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function loginUser(payload: LoginUserRequest): Promise<LoginUserResponse> {
+  return apiFetch<LoginUserResponse>("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
