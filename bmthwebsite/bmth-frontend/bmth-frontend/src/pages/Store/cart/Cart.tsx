@@ -3,9 +3,11 @@ import { CartContext } from "../../../context/store/CartContext.tsx";
 import { Box, Typography, Button, Stack, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { createOrder } from "../../../services/api/orders";
+import { useAuth } from "../../../context/store/user/AuthContext";
 
 function CartDetails() {
   const cart = useContext(CartContext);
+  const { auth } = useAuth();
   const items = cart?.cart || [];
 
   const [submitting, setSubmitting] = React.useState(false);
@@ -14,19 +16,26 @@ function CartDetails() {
 
   const handleBuy = async () => {
     if (!cart || items.length === 0) return;
+    const userId = auth.user?.userId ? Number(auth.user.userId) : 0;
+    if (Number.isNaN(userId)) {
+      setError("Invalid user id.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     setSuccess(null);
     try {
+      const orderItems = items.map((i) => ({
+        productId: i.productId,
+        variantId: i.variantId ?? 0,
+        color: i.color,
+        size: i.size,
+        quantity: i.quantity,
+      }));
+
       const payload = {
-        items: items.map((i) => ({
-          productId: i.productId,
-          variantId: i.variantId,
-          color: i.color,
-          size: i.size,
-          quantity: i.quantity,
-          price: i.price
-        })),
+        userId,
+        items: orderItems,
       };
 
       await createOrder(payload);

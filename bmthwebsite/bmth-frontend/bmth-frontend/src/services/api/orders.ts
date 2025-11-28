@@ -10,7 +10,7 @@ export type CreateOrderItem = {
 
 export type CreateOrderRequest = {
   userId: number;
-  orders: CreateOrderItem[];
+  items: CreateOrderItem[];
 };
 
 export async function createOrder(payload: CreateOrderRequest): Promise<unknown> {

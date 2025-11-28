@@ -15,7 +15,7 @@ export default function NavHeader() {
           <Link to="/store/apparel">APPAREL</Link>
           <Link to="/store/cart">CART</Link>
           {!auth.loading && !auth.user && <Link to="/login">Login</Link>}
-          {!auth.loading && auth.user && <Link to="/account">Account</Link>}
+          {!auth.loading && auth.user?.role === "User" && <Link to="/account">Account</Link>}
           {!auth.loading && auth.user?.role === "Admin" && <Link to="/admin">Admin</Link>}
           {!auth.loading && auth.user && <Link to="/logout">Logout</Link>}
         </nav>

@@ -9,6 +9,7 @@ import Login from "./pages/User/login/Login";
 import Logout from "./pages/User/logout/Logout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/guards/AdminRoute";
+import Account from "./pages/User/account/Account";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
       <Route path="logout" element={<Logout />} />
+      <Route path="account" element={<Account />} />
       <Route
         path="admin"
         element={

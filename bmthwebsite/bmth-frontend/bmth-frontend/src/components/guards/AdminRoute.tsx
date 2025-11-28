@@ -9,7 +9,7 @@ type AdminRouteProps = {
 export default function AdminRoute({ children }: AdminRouteProps) {
   const { auth } = useAuth();
 
-  if (auth.loading) return null; // show nothing while checking auth
+  if (auth.loading) return null;
   if (!auth.user) return <Navigate to="/login" replace />;
   if (auth.user.role !== "Admin") return <Navigate to="/account" replace />;
 
