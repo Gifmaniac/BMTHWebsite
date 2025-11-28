@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Alert, Box, Button, Card, CardContent, Link, Stack, TextField, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { loginUser } from "../../../services/api/users";
+import { useAuth } from "../../../context/store/user/AuthContext";
 import type { ApiError } from "../../../services/api/helper";
 import "../auth.css";
+
 
 type LoginForm = {
   email: string;
@@ -16,6 +18,7 @@ const initialValues: LoginForm = {
 };
 
 export default function Login() {
+  const { refreshAuth } = useAuth();
   const navigate = useNavigate();
   const [values, setValues] = useState<LoginForm>(initialValues);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(
@@ -39,7 +42,7 @@ export default function Login() {
         email: values.email.trim(),
         password: values.password,
       });
-
+      await refreshAuth();
       const authErrors =
         response.authList?.filter((item): item is string => typeof item === "string") ?? [];
 
@@ -47,7 +50,6 @@ export default function Login() {
         setStatus({ type: "error", message: authErrors.join(" ") });
         return;
       }
-
       setStatus({ type: "success", message: "Signed in successfully. Redirecting..." });
       setValues(initialValues);
       setTimeout(() => navigate("/store"), 600);
@@ -62,13 +64,13 @@ export default function Login() {
 
       const nestedErrors =
         data &&
-        typeof data === "object" &&
-        (data as { errors?: Record<string, unknown> }).errors &&
-        Array.isArray((data as { errors?: Record<string, unknown> }).errors?.AuthList)
+          typeof data === "object" &&
+          (data as { errors?: Record<string, unknown> }).errors &&
+          Array.isArray((data as { errors?: Record<string, unknown> }).errors?.AuthList)
           ? (data as { errors: Record<string, unknown> }).errors?.AuthList
           : [];
 
-      const authErrors = [...rootErrors, ...nestedErrors].filter(
+      const authErrors = [...rootErrors, nestedErrors].filter(
         (item): item is string => typeof item === "string"
       );
 
@@ -76,11 +78,11 @@ export default function Login() {
         authErrors.length > 0
           ? authErrors.join(" ")
           : apiError instanceof Error
-          ? apiError.message
-          : "Unable to sign in.";
+            ? apiError.message
+            : "Unable to sign in.";
 
       setStatus({ type: "error", message });
-    } 
+    }
     finally {
       setSubmitting(false);
     }

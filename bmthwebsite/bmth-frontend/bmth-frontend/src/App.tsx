@@ -6,6 +6,7 @@ import StoreGenderSelect from "./pages/Store/storegenderselect/StoreGenderSelect
 import CartDetails from "./pages/Store/cart/Cart";
 import Register from "./pages/User/register/register";
 import Login from "./pages/User/login/Login";
+import Logout from "./pages/User/logout/Logout";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       <Route path="cart" element={<CartDetails />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
+      <Route path="logout" element={<Logout />} />
     </Routes>
   );
 }

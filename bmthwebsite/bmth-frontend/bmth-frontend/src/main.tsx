@@ -5,6 +5,7 @@ import App from "./App";
 import { CartProvider } from "./context/store/CartContext.tsx";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { AuthProvider } from "./context/store/user/AuthContext";
 
 const darkTheme = createTheme({
   palette: {
@@ -50,9 +51,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-    import { ProductOverview } from "../../types/Product";
+    import { ProductOverview } from "../../types/Store/Product";
 
     const API_BASE = "https://localhost:7297";
 

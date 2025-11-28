@@ -44,3 +44,7 @@ export async function loginUser(payload: LoginUserRequest): Promise<LoginUserRes
     body: JSON.stringify(payload),
   });
 }
+  export async function logoutUser() {
+    return apiFetch<void>("/api/auth/logout", { method: "POST" });
+};
+

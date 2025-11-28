@@ -16,7 +16,8 @@ export default function StoreLayout() {
             <Link to="/store/apparel">APPAREL</Link>
             <Link to="/store/cart">CART</Link>
             {!auth.loading && !auth.user && <Link to="/login">Login</Link>}
-            {!auth.loading && auth.user && <Link to="/account">Account</Link>}            
+            {!auth.loading && auth.user && <Link to="/account">Account</Link>}
+            {!auth.loading && auth.user && <Link to="/logout">Logout</Link>}            
             </nav>
         </header>
 
