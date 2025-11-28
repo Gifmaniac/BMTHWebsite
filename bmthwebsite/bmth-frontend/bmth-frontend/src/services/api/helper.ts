@@ -10,6 +10,7 @@ const toStringArray = (value: unknown): string[] =>
 export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const response = await fetch(`${API_URL}${endpoint}`, {
     ...options,
+    credentials:"include",
     headers: {
       accept: "application/json",
       ApiKey: API_KEY,
