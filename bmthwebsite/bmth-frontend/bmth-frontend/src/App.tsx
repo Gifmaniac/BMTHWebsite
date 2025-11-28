@@ -7,6 +7,8 @@ import CartDetails from "./pages/Store/cart/Cart";
 import Register from "./pages/User/register/register";
 import Login from "./pages/User/login/Login";
 import Logout from "./pages/User/logout/Logout";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminRoute from "./components/guards/AdminRoute";
 
 function App() {
   return (
@@ -30,6 +32,14 @@ function App() {
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
       <Route path="logout" element={<Logout />} />
+      <Route
+        path="admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
     </Routes>
   );
 }
