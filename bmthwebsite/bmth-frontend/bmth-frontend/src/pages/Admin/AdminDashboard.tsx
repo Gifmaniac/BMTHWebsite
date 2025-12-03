@@ -24,14 +24,14 @@ export default function AdminDashboard() {
 
             <Stack spacing={2}>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
-                <Button variant="contained" fullWidth>New Product</Button>
-                <Button variant="outlined" fullWidth>Inventory</Button>
-                <Button variant="outlined" fullWidth>Orders</Button>
+                <Button variant="contained" fullWidth>Delete Product</Button>
+                <Button variant="outlined" fullWidth>Update Inventory</Button>
+                <Button variant="outlined" fullWidth>View Orders</Button>
               </Stack>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={1}>
-                <Button variant="outlined" fullWidth>Users</Button>
+                <Button variant="outlined" fullWidth>Moderate Users</Button>
                 <Button variant="outlined" fullWidth>Reviews</Button>
-                <Button variant="outlined" fullWidth>Reports</Button>
+                <Button variant="outlined" fullWidth>View Reports</Button>
               </Stack>
             </Stack>
 
