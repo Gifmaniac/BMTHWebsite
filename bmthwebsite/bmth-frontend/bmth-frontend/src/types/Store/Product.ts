@@ -7,6 +7,8 @@ export interface ProductOverview {
 }
 
 export interface Variant {
+    variantId?: number;
+    id?: number;
     color: string;
     size: string;
     quantity: number;

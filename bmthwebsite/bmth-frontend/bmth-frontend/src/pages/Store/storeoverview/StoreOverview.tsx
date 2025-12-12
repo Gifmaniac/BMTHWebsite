@@ -13,7 +13,6 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const headerTextMap: Record<string, string> = {
   men: "Men's Collection",
   women: "Women's Collection",
-  unisex: "All Clothing",
 };
 
 export default function StoreOverview() {
@@ -21,7 +20,7 @@ export default function StoreOverview() {
   const { gender } = useParams<{ gender: string }>();
 
   useEffect(() => {
-    const selectedGender = gender?.length ? gender : "Unisex";
+    const selectedGender = gender?.length ? gender : "Men";
 
     apiFetch<ProductOverview[]>(`/api/store/apparel?genders=${selectedGender}`)
       .then(setTshirts)
@@ -71,7 +70,6 @@ export default function StoreOverview() {
                     <Box className="store-card__meta">
                       <Chip label={shirt.category} size="small" />
                       <Typography variant="body2" color="gainsboro">
-                        {gender ? gender.toUpperCase() : "UNISEX"}
                       </Typography>
                     </Box>
                     <Typography gutterBottom variant="h6" component="h3" className="store-card__title">

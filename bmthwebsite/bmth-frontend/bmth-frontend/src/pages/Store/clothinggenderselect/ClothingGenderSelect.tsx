@@ -23,10 +23,6 @@ export default function StoreHome() {
           variant="contained">
           Female's Collection
         </Button>
-        <Button onClick={() => handleSelect("unisex")} className="store-btn"
-          variant="contained">
-          View All
-        </Button>
       </div>
     </div>
   );

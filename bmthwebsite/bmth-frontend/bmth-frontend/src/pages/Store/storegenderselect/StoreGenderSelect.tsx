@@ -19,9 +19,6 @@ export default function StoreGenderSelect() {
         <button onClick={() => handleSelect("Women")} className="store-btn">
           Women’s Collection
         </button>
-        <button onClick={() => handleSelect("Unisex")} className="store-btn">
-          View All
-        </button>
       </div>
     </div>
   );

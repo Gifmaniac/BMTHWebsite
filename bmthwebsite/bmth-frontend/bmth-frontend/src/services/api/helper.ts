@@ -29,11 +29,15 @@ export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): 
         ? (body as { errors?: Record<string, unknown> }).errors?.AuthList
         : [];
 
+    const backendError =
+      body && typeof body === "object" && "error" in body
+      ? (body as any).error
+      : null;
     const authList = [...toStringArray(fromRoot), ...toStringArray(fromErrors)];
 
     const fallback =
       typeof body === "string" && body.trim().length > 0 ? body : response.statusText || "Request failed";
-    const message = authList.length ? authList.join(" ") : fallback;
+    const message = backendError || (authList.length ? authList.join(" ") : fallback);
 
     const error: ApiError = new Error(message || `API error ${response.status}`);
     error.status = response.status;
