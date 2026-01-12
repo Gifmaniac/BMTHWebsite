@@ -16,7 +16,7 @@ type InventoryActionPanelProps = {
   category: string;
   onCategoryChange: (value: string) => void;
   categories: string[];
-  products: { id: number; name: string; price: number; category: string }[];
+  products: { id: number; name: string; price: number; category: string}[];
   productsLoading: boolean;
   productsError: string | null;
   productValue: string;

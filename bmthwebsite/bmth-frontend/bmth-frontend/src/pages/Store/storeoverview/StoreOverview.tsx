@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Container, Grid, Typography} from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Container, Typography} from "@mui/material";
+import Grid from "@mui/material/GridLegacy";
 import type { ProductOverview } from "../../../types/Store/Product";
 import { apiFetch } from "../../../services/api/helper";
 import "./storeoverview.css";
+
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
