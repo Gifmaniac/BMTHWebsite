@@ -8,11 +8,8 @@ export type RegisterUserRequest = {
 };
 
 export type RegisterUserResponse = {
-  id?: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  authList?: string[];
+  success: boolean;
+  authList: string[];
 };
 
 export type LoginUserRequest = {
