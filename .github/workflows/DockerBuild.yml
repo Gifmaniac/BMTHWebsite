@@ -34,5 +34,5 @@ jobs:
           file: bmthwebsite/bmth-frontend/bmth-frontend/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/bmth-frontend:latest
-            ghcr.io/${{ github.repository_owner }}/bmth-frontend:${{ github.sha }}
+            ghcr.io/gifmaniac/bmth-frontend:latest
+            ghcr.io/gifmaniac/bmth-frontend:${{ github.sha }}
