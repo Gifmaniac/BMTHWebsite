@@ -2,7 +2,7 @@ export interface ProductOverview {
     id: number;
     name: string;
     price: number;
-    imageUrl: string;
+    imageUrl?: string;
     category: string;
 }
 
@@ -12,7 +12,7 @@ export interface Variant {
     color: string;
     size: string;
     quantity: number;
-    imageUrlsList: string[];
+    imageUrlsList?: string[];
     inStock: boolean;
 }
 

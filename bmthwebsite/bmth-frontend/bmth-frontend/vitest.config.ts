@@ -4,6 +4,11 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+  },
   test: {
     globals: true,
     environment: "jsdom",
@@ -13,7 +18,7 @@ export default defineConfig({
       reporter: ["text", "lcov", "html"],
       reportsDirectory: "coverage",
       all: true,
-      include: ["src/**/*.{ts,tsx}"]
-    }
-  }
+      include: ["src/**/*.{ts,tsx}"],
+    },
+  },
 });

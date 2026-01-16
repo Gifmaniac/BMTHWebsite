@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Sidebar } from "./components/sidebar"
 import StoreRoutes from "./pages/Store/storeroutes/StoreRoutes";
 import StoreGenderSelect from "./pages/Store/storegenderselect/StoreGenderSelect";
 import CartDetails from "./pages/Store/cart/Cart";
@@ -10,21 +9,12 @@ import Logout from "./pages/User/logout/Logout";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminRoute from "./components/guards/AdminRoute";
 import Account from "./pages/User/account/Account";
+import HomeLanding from "./pages/Home/HomeLanding";
 
 function App() {
   return (
     <Routes>
-      {/* Routes with side bar */}
-      <Route
-        path="/"
-        element={
-          <div className="app-layout">
-            <Sidebar />
-            <main>
-            </main>
-          </div>
-        }
-      />
+      <Route path="/" element={<HomeLanding />} />
 
       {/* Routes without sidebar */}
       <Route path="/store/*" element={<StoreRoutes />}/>

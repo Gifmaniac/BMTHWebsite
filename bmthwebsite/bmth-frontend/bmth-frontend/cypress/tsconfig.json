@@ -1,0 +1,8 @@
+﻿{
+  "compilerOptions": {
+    "types": ["cypress", "node"],
+    "esModuleInterop": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}

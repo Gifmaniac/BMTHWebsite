@@ -1,4 +1,4 @@
-const API_URL = "https://localhost:7297";
+const API_URL = "http://localhost:5221";
 const API_KEY = "ApiKey123";
 
 export type ApiError = Error & { status?: number; data?: unknown };

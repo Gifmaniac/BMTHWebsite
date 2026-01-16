@@ -27,5 +27,5 @@ export function deleteProduct(productId: number): Promise<void> {
 }
 
 export function deleteProductVariant(productId: number, variantId: number): Promise<void> {
-  return apiFetch<void>(`${APPAREL_BASE}/${productId}/variants/${variantId}`, { method: "DELETE" });
+  return apiFetch<void>(`${APPAREL_BASE}/${productId}/${variantId}`, { method: "DELETE" });
 }
